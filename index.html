@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Optimasi SEO Utama -->
-  <title>Portal Islami Terpadu - Berita, Kalkulator Zakat, Waris, Hadits & Arah Kiblat</title>
-  <meta name="description" content="Portal Islami lengkap menyajikan berita Islam terkini, kalkulator zakat & waris (faraidh), pencarian hadits shahih, kumpulan doa harian sunnah, dan penunjuk arah kiblat presisi online.">
-  <meta name="keywords" content="berita islam, kalkulator zakat, kalkulator waris, faraidh, hadits shahih, doa harian sunnah, arah kiblat online">
+  <title>Ruang Islam - Berita, Kalkulator Zakat, Waris, Hadits & Arah Kiblat</title>
+  <meta name="description" content="Ruang Islam menyajikan berita Islam terkini, kalkulator zakat & waris (faraidh), pencarian hadits shahih, kumpulan doa harian sunnah, dan penunjuk arah kiblat presisi online.">
+  <meta name="keywords" content="ruang islam, berita islam, kalkulator zakat, kalkulator waris, faraidh, hadits shahih, doa harian sunnah, arah kiblat online">
   <meta name="robots" content="index, follow">
-  <meta name="author" content="Portal Islami">
+  <meta name="author" content="Ruang Islam">
   
   <!-- Open Graph / Social Media SEO -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Portal Islami Terpadu - Layanan & Edukasi Syariah Digital">
+  <meta property="og:title" content="Ruang Islam - Layanan & Edukasi Syariah Digital">
   <meta property="og:description" content="Akses berita Islami terkini, kalkulator zakat, ilmu waris, hadits shahih, dan penunjuk arah kiblat secara gratis dan presisi.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80">
   
@@ -27,7 +27,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Portal Islami Terpadu",
+    "name": "Ruang Islam",
     "url": "https://asepridwanriswanto-cmd.github.io/ruang-islam/",
     "potentialAction": {
       "@type": "SearchAction",
@@ -44,7 +44,7 @@
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-2 text-xl font-bold tracking-wide">
         <i data-lucide="compass" class="w-7 h-7 text-emerald-200"></i>
-        <span>PortalIslami</span>
+        <span>RuangIslam</span>
       </a>
       <nav class="hidden md:flex space-x-6 font-medium text-sm">
         <a href="index.html" class="hover:text-emerald-200 transition">Beranda</a>
@@ -61,7 +61,7 @@
   <!-- Hero Section -->
   <section class="bg-gradient-to-r from-emerald-800 to-emerald-600 text-white py-14 px-4 text-center">
     <div class="max-w-4xl mx-auto">
-      <h1 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">Layanan & Edukasi Islami Berbasis Digital</h1>
+      <h1 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">Layanan & Edukasi Syariah Digital</h1>
       <p class="text-emerald-100 text-base md:text-lg mb-8">Memudahkan Anda dalam menghitung zakat, pembagian waris syariah, mencari hadits shahih, doa harian, hingga penunjuk arah kiblat secara akurat.</p>
       
       <!-- Quick Navigation Cards -->
@@ -98,12 +98,12 @@
     <div id="news-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="col-span-full text-center py-12 text-slate-400">
         <i data-lucide="loader" class="w-8 h-8 animate-spin mx-auto mb-2 text-emerald-600"></i>
-        Mengambil berita Islami dari berbagai media...
+        Mengambil berita Islami terbaru...
       </div>
     </div>
   </main>
 
-  <!-- READER VIEW (Aman dari Blokir Browser Mobile HP) -->
+  <!-- READER VIEW -->
   <div id="newsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-end md:items-center justify-center p-0 md:p-4 hidden transition-all duration-300">
     <div class="bg-white rounded-t-3xl md:rounded-2xl max-w-2xl w-full max-h-[90vh] md:max-h-[85vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100 animate-in slide-in-from-bottom duration-300">
       
@@ -137,17 +137,16 @@
   <!-- Footer -->
   <footer class="bg-slate-900 text-slate-400 py-8 px-4 text-center text-sm mt-auto border-t border-slate-800">
     <div class="max-w-7xl mx-auto">
-      <p class="mb-2">&copy; 2026 Portal Islami Terpadu. Seluruh hak cipta dilindungi.</p>
+      <p class="mb-2">&copy; 2026 Ruang Islam. Seluruh hak cipta dilindungi.</p>
       <p class="text-xs text-slate-500">Dikembangkan untuk memberikan kemudahan akses informasi & alat bantu ibadah bagi umat Muslim.</p>
     </div>
   </footer>
 
-  <!-- Script Multi-RSS Parser (Republika, Liputan6 Islam, Detik Hikmah) -->
+  <!-- Script Multi-RSS Parser -->
   <script>
     lucide.createIcons();
     let newsDataList = [];
 
-    // Daftar Sumber RSS Feed Media
     const rssFeeds = [
       { name: "Republika Islam", url: "https://www.republika.co.id/rss/islam-digest/" },
       { name: "Liputan6 Islami", url: "https://www.liputan6.com/feed/islami" },
@@ -194,11 +193,9 @@
         }
       }
 
-      // Acak/Kombinasikan Berita
       if (newsDataList.length > 0) {
         newsContainer.innerHTML = '';
         
-        // Ambil maksimal 6 - 9 berita gabungan
         newsDataList.slice(0, 9).forEach((news, index) => {
           const cardHtml = `
             <article onclick="openModal(${index})" class="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden border border-slate-100 flex flex-col justify-between p-5 cursor-pointer group">
