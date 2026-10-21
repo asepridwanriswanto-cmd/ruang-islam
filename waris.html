@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Optimasi SEO Utama -->
+  <title>Kalkulator Waris Islam (Faraidh) Online Presisi - Hitung Harta Warisan</title>
+  <meta name="description" content="Hitung pembagian harta waris syariah (Faraidh) secara tepat, akurat, dan transparan untuk ahli waris utama berdasarkan ketentuan Fiqih Islam.">
+  <meta name="keywords" content="kalkulator waris, hitung warisan islam, faraidh, hukum waris islam, pembagian waris syariah">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kalkulator Waris Syariah (Faraidh) Online">
+  <meta property="og:description" content="Hitung pembagian harta warisan keluarga sesuai hukum Fiqih Mawaris.">
+
+  <!-- Tailwind CSS & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Kalkulator Waris Syariah Faraidh",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans flex flex-col min-h-screen">
+
+  <!-- Header / Navigasi -->
+  <header class="bg-emerald-700 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-2 text-xl font-bold tracking-wide">
+        <i data-lucide="compass" class="w-7 h-7 text-emerald-200"></i>
+        <span>PortalIslami</span>
+      </a>
+      <nav class="hidden md:flex space-x-6 font-medium text-sm">
+        <a href="index.html" class="hover:text-emerald-200 transition">Beranda</a>
+        <a href="zakat.html" class="hover:text-emerald-200 transition">Kalkulator Zakat</a>
+        <a href="waris.html" class="text-emerald-200 font-bold border-b-2 border-emerald-200 pb-1">Kalkulator Waris</a>
+        <a href="hadits.html" class="hover:text-emerald-200 transition">Hadits Shahih</a>
+        <a href="doa.html" class="hover:text-emerald-200 transition">Doa Harian</a>
+        <a href="kiblat.html" class="hover:text-emerald-200 transition">Arah Kiblat</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Judul Halaman -->
+  <section class="bg-emerald-800 text-white py-10 px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-3xl font-extrabold mb-2">Kalkulator Waris Syariah (Faraidh)</h1>
+      <p class="text-emerald-100 text-sm md:text-base">Hitung pembagian harta peninggalan (*Tarikah*) secara adil dan akurat sesuai ketentuan Al-Qur'an dan As-Sunnah.</p>
+    </div>
+  </section>
+
+  <!-- Konten Utama -->
+  <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+      <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+        <i data-lucide="scale" class="w-6 h-6 text-emerald-600"></i> Input Data Harta & Ahli Waris
+      </h2>
+
+      <!-- Input Total Harta Netto -->
+      <div class="mb-6 bg-emerald-50/60 p-4 rounded-xl border border-emerald-100">
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Total Harta Bersih Warisan (Rp)</label>
+        <p class="text-xs text-slate-500 mb-2">Total harta setelah dikurangi biaya pemakaman, pelunasan hutang, dan wasiat (maks 1/3).</p>
+        <input type="number" id="totalWealth" placeholder="Contoh: 100000000" class="w-full p-3 border rounded-xl text-base font-bold text-emerald-900 focus:ring-2 focus:ring-emerald-500 outline-none">
+      </div>
+
+      <!-- Informasi Pewaris -->
+      <div class="mb-6">
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Jenis Kelamin Almarhum/Almarhumah (Pewaris)</label>
+        <div class="flex gap-4">
+          <label class="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-700">
+            <input type="radio" name="gender" value="male" checked onchange="toggleSpouseOption()" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500"> Laki-laki (Suami)
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-700">
+            <input type="radio" name="gender" value="female" onchange="toggleSpouseOption()" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500"> Perempuan (Istri)
+          </label>
+        </div>
+      </div>
+
+      <!-- Pilih Ahli Waris Utama -->
+      <div class="space-y-4 border-t pt-6">
+        <h3 class="font-bold text-slate-800 text-sm">Daftar Ahli Waris yang Ada:</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Pasangan (Istri / Suami) -->
+          <div class="p-3 border rounded-xl bg-slate-50 flex items-center justify-between" id="spouseContainer">
+            <label class="text-sm font-medium text-slate-700" id="spouseLabel">Jumlah Istri</label>
+            <input type="number" id="wifeCount" min="0" max="4" value="0" class="w-20 p-2 border rounded-lg text-center font-bold text-sm">
+          </div>
+
+          <!-- Anak Laki-laki -->
+          <div class="p-3 border rounded-xl bg-slate-50 flex items-center justify-between">
+            <label class="text-sm font-medium text-slate-700">Anak Laki-laki</label>
+            <input type="number" id="sonCount" min="0" value="0" class="w-20 p-2 border rounded-lg text-center font-bold text-sm">
+          </div>
+
+          <!-- Anak Perempuan -->
+          <div class="p-3 border rounded-xl bg-slate-50 flex items-center justify-between">
+            <label class="text-sm font-medium text-slate-700">Anak Perempuan</label>
+            <input type="number" id="daughterCount" min="0" value="0" class="w-20 p-2 border rounded-lg text-center font-bold text-sm">
+          </div>
+
+          <!-- Ayah -->
+          <div class="p-3 border rounded-xl bg-slate-50 flex items-center justify-between">
+            <label class="text-sm font-medium text-slate-700">Ayah Kandung</label>
+            <select id="hasFather" class="p-2 border rounded-lg text-sm font-bold bg-white">
+              <option value="no">Tidak Ada</option>
+              <option value="yes">Ada</option>
+            </select>
+          </div>
+
+          <!-- Ibu -->
+          <div class="p-3 border rounded-xl bg-slate-50 flex items-center justify-between">
+            <label class="text-sm font-medium text-slate-700">Ibu Kandung</label>
+            <select id="hasMother" class="p-2 border rounded-lg text-sm font-bold bg-white">
+              <option value="no">Tidak Ada</option>
+              <option value="yes">Ada</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tombol Hitung -->
+      <button onclick="calculateWaris()" class="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+        <i data-lucide="calculator" class="w-5 h-5"></i> Hitung Pembagian Waris
+      </button>
+    </div>
+
+    <!-- Hasil Perhitungan -->
+    <div id="resultBox" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+      <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center justify-between">
+        <span>Rincian Pembagian Warisan</span>
+        <span class="text-xs font-normal text-slate-500" id="totalWealthText"></span>
+      </h3>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-700">
+          <thead class="bg-slate-100 text-slate-800 uppercase text-xs">
+            <tr>
+              <th class="p-3 rounded-l-lg">Ahli Waris</th>
+              <th class="p-3">Porsi (Bagian)</th>
+              <th class="p-3 text-right rounded-r-lg">Nominal Diterima (Rp)</th>
+            </tr>
+          </thead>
+          <tbody id="resultTableBody" class="divide-y divide-slate-100">
+            <!-- Diisi lewat JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Edukasi Syariah -->
+    <article class="bg-white p-6 rounded-2xl border border-slate-200 text-sm leading-relaxed text-slate-700 space-y-3">
+      <h3 class="text-base font-bold text-slate-900">Urutan Kewajiban Sebelum Warisan Dibagikan</h3>
+      <ol class="list-decimal pl-5 space-y-1 text-xs md:text-sm">
+        <li><strong>Pengurusan Jenazah:</strong> Biaya kain kafan, pemakaman, dan kebutuhan terkait.</li>
+        <li><strong>Pelunasan Hutang:</strong> Membayar hutang almarhum/ah kepada sesama manusia maupun nazar/kifarat.</li>
+        <li><strong>Pelaksanaan Wasiat:</strong> Penyerahan wasiat (maksimal 1/3 dari total sisa harta).</li>
+        <li><strong>Pembagian Faraidh:</strong> Sisa harta bersih baru dibagikan kepada ahli waris yang berhak.</li>
+      </ol>
+    </article>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 py-6 px-4 text-center text-sm border-t border-slate-800 mt-auto">
+    <p>&copy; 2026 Portal Islami Terpadu. Seluruh hak cipta dilindungi.</p>
+  </footer>
+
+  <!-- Logic JavaScript -->
+  <script>
+    lucide.createIcons();
+
+    function formatRupiah(num) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
+    }
+
+    function toggleSpouseOption() {
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+      const label = document.getElementById('spouseLabel');
+      const input = document.getElementById('wifeCount');
+
+      if (gender === 'male') {
+        label.innerText = 'Jumlah Istri';
+        input.max = 4;
+      } else {
+        label.innerText = 'Ada Suami? (1 = Ya, 0 = Tidak)';
+        input.max = 1;
+        if (parseInt(input.value) > 1) input.value = 1;
+      }
+    }
+
+    function calculateWaris() {
+      const wealth = parseFloat(document.getElementById('totalWealth').value) || 0;
+      if (wealth <= 0) {
+        alert('Silakan masukkan total harta warisan bersih yang valid.');
+        return;
+      }
+
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+      const wifeOrHusbandCount = parseInt(document.getElementById('wifeCount').value) || 0;
+      const sons = parseInt(document.getElementById('sonCount').value) || 0;
+      const daughters = parseInt(document.getElementById('daughterCount').value) || 0;
+      const hasFather = document.getElementById('hasFather').value === 'yes';
+      const hasMother = document.getElementById('hasMother').value === 'yes';
+
+      const hasChildren = (sons + daughters) > 0;
+      let results = [];
+      let totalAssignedShare = 0;
+
+      // 1. Hitung Bagian Ibu
+      let motherShare = 0;
+      if (hasMother) {
+        motherShare = hasChildren ? (1 / 6) : (1 / 3);
+        results.push({ name: 'Ibu Kandung', shareText: hasChildren ? '1/6' : '1/3', shareVal: motherShare });
+        totalAssignedShare += motherShare;
+      }
+
+      // 2. Hitung Bagian Pasangan
+      let spouseShare = 0;
+      if (wifeOrHusbandCount > 0) {
+        if (gender === 'male') { // Pewaris Laki-Laki -> Istri
+          spouseShare = hasChildren ? (1 / 8) : (1 / 4);
+          results.push({ name: `Istri (${wifeOrHusbandCount} orang)`, shareText: hasChildren ? '1/8' : '1/4', shareVal: spouseShare });
+        } else { // Pewaris Perempuan -> Suami
+          spouseShare = hasChildren ? (1 / 4) : (1 / 2);
+          results.push({ name: 'Suami', shareText: hasChildren ? '1/4' : '1/2', shareVal: spouseShare });
+        }
+        totalAssignedShare += spouseShare;
+      }
+
+      // 3. Hitung Bagian Ayah (Asabah jika tidak ada anak laki-laki)
+      let fatherShare = 0;
+      if (hasFather) {
+        if (sons > 0) {
+          fatherShare = 1 / 6;
+          results.push({ name: 'Ayah Kandung', shareText: '1/6', shareVal: fatherShare });
+          totalAssignedShare += fatherShare;
+        } else if (daughters > 0) {
+          fatherShare = 1 / 6; // Nanti ditambah sisa asabah
+          results.push({ name: 'Ayah Kandung', shareText: '1/6 + Sisa Asabah', shareVal: fatherShare, isFatherAsabah: true });
+          totalAssignedShare += fatherShare;
+        } else {
+          // Asabah penuh (mengambil sisa)
+          results.push({ name: 'Ayah Kandung', shareText: 'Asabah (Sisa Harta)', shareVal: 0, isPureAsabahFather: true });
+        }
+      }
+
+      // 4. Hitung Anak-Anak & Sisa Harta (Asabah)
+      let remainingShare = 1 - totalAssignedShare;
+      if (remainingShare < 0) remainingShare = 0;
+
+      if (sons > 0) {
+        // Anak laki-laki + perempuan menjadi asabah bil ghair (2:1)
+        const totalUnits = (sons * 2) + daughters;
+        const perUnitShare = remainingShare / totalUnits;
+
+        results.push({ name: `Anak Laki-laki (${sons} orang)`, shareText: `Asabah (2 bagian x ${sons})`, shareVal: perUnitShare * 2 * sons });
+        if (daughters > 0) {
+          results.push({ name: `Anak Perempuan (${daughters} orang)`, shareText: `Asabah (1 bagian x ${daughters})`, shareVal: perUnitShare * daughters });
+        }
+      } else if (daughters > 0) {
+        // Hanya anak perempuan (tanpa anak laki-laki)
+        let daughterShare = (daughters === 1) ? (1 / 2) : (2 / 3);
+        if (daughterShare > remainingShare) daughterShare = remainingShare;
+        results.push({ name: `Anak Perempuan (${daughters} orang)`, shareText: (daughters === 1) ? '1/2' : '2/3', shareVal: daughterShare });
+
+        // Jika Ayah ada dan bertindak sebagai Asabah Sisa
+        const fatherObj = results.find(r => r.isFatherAsabah);
+        if (fatherObj) {
+          const sisaNol = remainingShare - daughterShare;
+          fatherObj.shareVal += (sisaNol > 0 ? sisaNol : 0);
+        }
+      } else {
+        // Tanpa anak, jika ayah ada sebagai Asabah Murni
+        const fatherObj = results.find(r => r.isPureAsabahFather);
+        if (fatherObj) {
+          fatherObj.shareVal = remainingShare;
+        }
+      }
+
+      // Tampilkan Hasil di Tabel
+      const tbody = document.getElementById('resultTableBody');
+      tbody.innerHTML = '';
+
+      results.forEach(item => {
+        const nominal = item.shareVal * wealth;
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3 font-semibold text-slate-800">${item.name}</td>
+            <td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-bold">${item.shareText}</span></td>
+            <td class="p-3 text-right font-extrabold text-emerald-700">${formatRupiah(nominal)}</td>
+          </tr>
+        `;
+      });
+
+      document.getElementById('totalWealthText').innerText = `Total Harta: ${formatRupiah(wealth)}`;
+      document.getElementById('resultBox').classList.remove('hidden');
+      document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
