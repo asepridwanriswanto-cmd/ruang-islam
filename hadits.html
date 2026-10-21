@@ -51,12 +51,12 @@
         <div>
           <label class="block text-xs font-bold text-slate-600 mb-1">Pilih Perawi Hadits</label>
           <select id="narrator" class="w-full p-3 border rounded-xl text-sm font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-            <option value="bukhari">Shahih Bukhari</option>
-            <option value="muslim">Shahih Muslim</option>
-            <option value="abu-dawud">Sunan Abu Daud</option>
-            <option value="tirmidzi">Sunan Tirmidzi</option>
-            <option value="nasai">Sunan An-Nasa'i</option>
-            <option value="ibnu-majah">Sunan Ibnu Majah</option>
+            <option value="bukhari">Shahih Bukhari (1 - 7008)</option>
+            <option value="muslim" selected>Shahih Muslim (1 - 5362)</option>
+            <option value="abu-daud">Sunan Abu Daud (1 - 4590)</option>
+            <option value="tirmidzi">Sunan Tirmidzi (1 - 3896)</option>
+            <option value="nasai">Sunan An-Nasa'i (1 - 5662)</option>
+            <option value="ibnu-majah">Sunan Ibnu Majah (1 - 4331)</option>
           </select>
         </div>
         <div>
@@ -86,62 +86,99 @@
     <p>&copy; 2026 Portal Islami Terpadu. Seluruh hak cipta dilindungi.</p>
   </footer>
 
-  <!-- Script Fetch API Hadits -->
+  <!-- Script Fetch API Hadits dengan Dual-Endpoint Fallback -->
   <script>
     lucide.createIcons();
 
     async function fetchHadith() {
       const narrator = document.getElementById('narrator').value;
-      const number = document.getElementById('hadithNumber').value || 1;
+      const number = parseInt(document.getElementById('hadithNumber').value) || 1;
       const container = document.getElementById('hadithContainer');
 
       container.innerHTML = `
         <div class="text-center py-12 text-slate-500">
           <i data-lucide="loader" class="w-8 h-8 animate-spin mx-auto mb-2 text-emerald-600"></i>
-          Memuat riwayat hadits...
+          Mencari riwayat hadits...
         </div>
       `;
       lucide.createIcons();
 
+      // Sumber API 1 (Utama) & Sumber API 2 (Cadangan)
+      const primaryUrl = `https://api.hadith.gading.dev/books/${narrator}/${number}`;
+      const fallbackUrl = `https://hadis-api-id.vercel.app/hadith/${narrator}/${number}`;
+
+      let fetchedData = null;
+
+      // Coba Sumber Utama
       try {
-        const response = await fetch(`https://api.hadith.gading.dev/books/${narrator}/${number}`);
-        const result = await response.json();
-
-        if (result.code === 200 && result.data) {
-          const hadith = result.data.contents;
-          container.innerHTML = `
-            <div class="border-b pb-4 mb-6 flex justify-between items-center">
-              <div>
-                <span class="bg-emerald-100 text-emerald-800 font-bold text-xs px-3 py-1 rounded-full uppercase">${result.data.name}</span>
-                <span class="text-slate-500 text-sm ml-2">Hadits No. ${hadith.number}</span>
-              </div>
-            </div>
-
-            <!-- Teks Arab -->
-            <p class="text-right text-2xl md:text-3xl font-serif leading-loose text-slate-900 mb-6 dir-rtl" style="font-family: 'Amiri', 'Traditional Arabic', serif;">
-              ${hadith.arab}
-            </p>
-
-            <!-- Terjemahan -->
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm text-slate-700 leading-relaxed">
-              <h4 class="font-bold text-slate-900 mb-1">Terjemahan Indonesia:</h4>
-              <p>${hadith.id}</p>
-            </div>
-          `;
-        } else {
-          throw new Error('Hadits tidak ditemukan');
+        const response = await fetch(primaryUrl);
+        if (response.ok) {
+          const res = await response.json();
+          if (res.code === 200 && res.data && res.data.contents) {
+            fetchedData = {
+              name: res.data.name,
+              number: res.data.contents.number,
+              arab: res.data.contents.arab,
+              id: res.data.contents.id
+            };
+          }
         }
-      } catch (err) {
+      } catch (e) {
+        console.warn("API Utama bermasalah, mengalihkan ke API cadangan...");
+      }
+
+      // Jika Sumber Utama gagal, Coba Sumber Cadangan
+      if (!fetchedData) {
+        try {
+          const response = await fetch(fallbackUrl);
+          if (response.ok) {
+            const res = await response.json();
+            if (res && (res.arab || res.id)) {
+              fetchedData = {
+                name: narrator.toUpperCase().replace('-', ' '),
+                number: number,
+                arab: res.arab || res.text || '',
+                id: res.id || res.terjemah || res.tr || ''
+              };
+            }
+          }
+        } catch (e) {
+          console.error("Kedua API mengalami kendala.");
+        }
+      }
+
+      // Render Hasil
+      if (fetchedData && fetchedData.arab) {
+        container.innerHTML = `
+          <div class="border-b pb-4 mb-6 flex justify-between items-center">
+            <div>
+              <span class="bg-emerald-100 text-emerald-800 font-bold text-xs px-3 py-1 rounded-full uppercase">${fetchedData.name}</span>
+              <span class="text-slate-500 text-sm ml-2">Hadits No. ${fetchedData.number}</span>
+            </div>
+          </div>
+
+          <!-- Teks Arab -->
+          <p class="text-right text-2xl md:text-3xl font-serif leading-loose text-slate-900 mb-6 dir-rtl" style="font-family: 'Amiri', 'Traditional Arabic', serif;">
+            ${fetchedData.arab}
+          </p>
+
+          <!-- Terjemahan -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm text-slate-700 leading-relaxed">
+            <h4 class="font-bold text-slate-900 mb-1">Terjemahan Indonesia:</h4>
+            <p>${fetchedData.id}</p>
+          </div>
+        `;
+      } else {
         container.innerHTML = `
           <div class="text-center py-8 text-rose-600">
-            <p class="font-bold">Hadits tidak ditemukan atau nomor melebihi batas simpanan perawi.</p>
-            <p class="text-xs text-slate-500 mt-1">Coba masukkan nomor hadits yang lebih kecil.</p>
+            <p class="font-bold">Hadits No. ${number} tidak ditemukan atau nomor melebihi batas simpanan kitab perawi.</p>
+            <p class="text-xs text-slate-500 mt-1">Silakan coba nomor yang lebih kecil atau pilih kitab perawi lainnya.</p>
           </div>
         `;
       }
     }
 
-    // Auto fetch default
+    // Panggil otomatis saat halaman dimuat
     fetchHadith();
   </script>
 </body>
