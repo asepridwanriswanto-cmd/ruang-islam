@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Optimasi SEO Utama -->
+  <title>Penunjuk Arah Kiblat Online Presisi - Kompas GPS Ka'bah Makkah</title>
+  <meta name="description" content="Temukan arah kiblat shalat presisi dari lokasi Anda saat ini menggunakan GPS dan perhitungan sudut azimuth Ka'bah Makkah secara akurat online.">
+  <meta name="keywords" content="arah kiblat online, kompas kiblat, cari arah kiblat, kiblat GPS, sudut kiblat ka'bah">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Penunjuk Arah Kiblat Online Presisi">
+  <meta property="og:description" content="Cari arah Kiblat shalat secara otomatis dan presisi dari perangkat ponsel atau komputer Anda.">
+
+  <!-- Tailwind CSS & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Penunjuk Arah Kiblat Presisi",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans flex flex-col min-h-screen">
+
+  <!-- Header / Navigasi -->
+  <header class="bg-emerald-700 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-2 text-xl font-bold tracking-wide">
+        <i data-lucide="compass" class="w-7 h-7 text-emerald-200"></i>
+        <span>PortalIslami</span>
+      </a>
+      <nav class="hidden md:flex space-x-6 font-medium text-sm">
+        <a href="index.html" class="hover:text-emerald-200 transition">Beranda</a>
+        <a href="zakat.html" class="hover:text-emerald-200 transition">Kalkulator Zakat</a>
+        <a href="waris.html" class="hover:text-emerald-200 transition">Kalkulator Waris</a>
+        <a href="hadits.html" class="hover:text-emerald-200 transition">Hadits Shahih</a>
+        <a href="doa.html" class="hover:text-emerald-200 transition">Doa Harian</a>
+        <a href="kiblat.html" class="text-emerald-200 font-bold border-b-2 border-emerald-200 pb-1">Arah Kiblat</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Judul Halaman -->
+  <section class="bg-emerald-800 text-white py-10 px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-3xl font-extrabold mb-2">Penunjuk Arah Kiblat Presisi</h1>
+      <p class="text-emerald-100 text-sm md:text-base">Dapatkan perhitungan derajat arah Ka'bah (Makkah) yang akurat berdasarkan titik koordinat GPS lokasi Anda.</p>
+    </div>
+  </section>
+
+  <!-- Konten Utama -->
+  <main class="max-w-3xl mx-auto px-4 py-8 flex-grow w-full">
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 text-center mb-8">
+      
+      <!-- Tombol Aktifkan Lokasi -->
+      <button onclick="getQiblaDirection()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl shadow transition inline-flex items-center gap-2 mb-6">
+        <i data-lucide="map-pin" class="w-5 h-5"></i> Deteksi Arah Kiblat Lokasi Saya
+      </button>
+
+      <!-- Status Informasi -->
+      <div id="statusText" class="text-slate-500 text-sm mb-6">
+        Klik tombol di atas untuk mengizinkan akses lokasi (GPS) pada browser Anda.
+      </div>
+
+      <!-- Tampilan Kompas Visual -->
+      <div class="relative w-64 h-64 mx-auto mb-6 flex items-center justify-center">
+        <!-- Lingkaran Kompas Utama -->
+        <div class="w-full h-full rounded-full border-4 border-slate-200 bg-slate-50 flex items-center justify-center relative shadow-inner">
+          <span class="absolute top-2 font-bold text-xs text-rose-600">U (North)</span>
+          <span class="absolute bottom-2 font-bold text-xs text-slate-400">S</span>
+          <span class="absolute right-2 font-bold text-xs text-slate-400">T</span>
+          <span class="absolute left-2 font-bold text-xs text-slate-400">B</span>
+
+          <!-- Jarum Petunjuk Arah Kiblat -->
+          <div id="compassNeedle" class="w-1 h-28 bg-emerald-600 rounded-full origin-bottom transition-transform duration-700 ease-out absolute bottom-1/2 transform -translate-x-1/2" style="transform: rotate(0deg);">
+            <div class="w-4 h-4 bg-emerald-600 rounded-full border-2 border-white mx-auto -mt-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hasil Koordinat & Derajat -->
+      <div id="qiblaResult" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+        <p class="text-xs text-slate-600 mb-1">Sudut Azimuth Arah Kiblat (dari Utara searah jarum jam):</p>
+        <p class="text-3xl font-extrabold text-emerald-800 my-1" id="qiblaDegree">0°</p>
+        <p class="text-xs text-slate-500" id="coordsText">Koordinat Anda: -</p>
+      </div>
+
+    </div>
+
+    <!-- Edukasi / Artikel SEO -->
+    <article class="bg-white p-6 rounded-2xl border border-slate-200 text-sm leading-relaxed text-slate-700 space-y-3">
+      <h3 class="text-base font-bold text-slate-900">Cara Menggunakan Kompas Kiblat Digital</h3>
+      <ol class="list-decimal pl-5 space-y-1 text-xs md:text-sm text-slate-600">
+        <li>Pastikan Fitur **Lokasi/GPS** pada smartphone atau komputer Anda sudah diaktifkan.</li>
+        <li>Izinkan izin akses lokasi saat diminta oleh browser.</li>
+        <li>Buka aplikasi kompas di smartphone Anda dan arahkan perangkat tepat ke derajat azimuth yang ditampilkan di atas.</li>
+      </ol>
+    </article>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 py-6 px-4 text-center text-sm border-t border-slate-800 mt-auto">
+    <p>&copy; 2026 Portal Islami Terpadu. Seluruh hak cipta dilindungi.</p>
+  </footer>
+
+  <!-- Logic JavaScript Perhitungan Kiblat -->
+  <script>
+    lucide.createIcons();
+
+    function getQiblaDirection() {
+      const statusText = document.getElementById('statusText');
+      
+      if (!navigator.geolocation) {
+        statusText.innerText = 'Geolokasi/GPS tidak didukung oleh browser Anda.';
+        return;
+      }
+
+      statusText.innerText = 'Mendapatkan titik koordinat lokasi Anda...';
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          // Koordinat Ka'bah (Makkah)
+          const kaabaLat = 21.4225 * (Math.PI / 180);
+          const kaabaLng = 39.8262 * (Math.PI / 180);
+
+          const myLat = lat * (Math.PI / 180);
+          const myLng = lng * (Math.PI / 180);
+
+          // Formula Trigonometri Spherical untuk Azimuth Kiblat
+          const deltaLng = kaabaLng - myLng;
+          const y = Math.sin(deltaLng);
+          const x = Math.cos(myLat) * Math.tan(kaabaLat) - Math.sin(myLat) * Math.cos(deltaLng);
+
+          let qiblaRad = Math.atan2(y, x);
+          let qiblaDeg = qiblaRad * (180 / Math.PI);
+          if (qiblaDeg < 0) {
+            qiblaDeg += 360;
+          }
+
+          const finalDegree = qiblaDeg.toFixed(2);
+
+          // Update UI
+          document.getElementById('compassNeedle').style.transform = `rotate(${finalDegree}deg)`;
+          document.getElementById('qiblaDegree').innerText = `${finalDegree}°`;
+          document.getElementById('coordsText').innerText = `Koordinat Anda: ${lat.toFixed(4)}°, ${lng.toFixed(4)}°`;
+          document.getElementById('qiblaResult').classList.remove('hidden');
+          statusText.innerText = 'Arah Kiblat berhasil dihitung berdasarkan lokasi GPS Anda!';
+        },
+        (error) => {
+          statusText.innerText = 'Gagal mendapatkan lokasi. Harap izinkan akses lokasi pada browser Anda.';
+        }
+      );
+    }
+  </script>
+</body>
+</html>
