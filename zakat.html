@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Optimasi SEO Utama -->
+  <title>Kalkulator Zakat Online Presisi - Profesi, Maal, Emas & Fitrah</title>
+  <meta name="description" content="Hitung zakat profesi, zakat maal, zakat emas, dan zakat fitrah Anda secara akurat sesuai syariat Islam. Dilengkapi nisab harga emas terkini dan dalil shahih.">
+  <meta name="keywords" content="kalkulator zakat, hitung zakat profesi, zakat maal, zakat emas, zakat fitrah, nisab zakat">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kalkulator Zakat Online Syariah">
+  <meta property="og:description" content="Hitung kewajiban zakat Anda dengan cepat, akurat, dan sesuai nisab syariah.">
+
+  <!-- Tailwind CSS & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Schema.org WebPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Kalkulator Zakat Syariah",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans flex flex-col min-h-screen">
+
+  <!-- Header / Navigasi -->
+  <header class="bg-emerald-700 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-2 text-xl font-bold tracking-wide">
+        <i data-lucide="compass" class="w-7 h-7 text-emerald-200"></i>
+        <span>PortalIslami</span>
+      </a>
+      <nav class="hidden md:flex space-x-6 font-medium text-sm">
+        <a href="index.html" class="hover:text-emerald-200 transition">Beranda</a>
+        <a href="zakat.html" class="text-emerald-200 font-bold border-b-2 border-emerald-200 pb-1">Kalkulator Zakat</a>
+        <a href="waris.html" class="hover:text-emerald-200 transition">Kalkulator Waris</a>
+        <a href="hadits.html" class="hover:text-emerald-200 transition">Hadits Shahih</a>
+        <a href="doa.html" class="hover:text-emerald-200 transition">Doa Harian</a>
+        <a href="kiblat.html" class="hover:text-emerald-200 transition">Arah Kiblat</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Judul Halaman -->
+  <section class="bg-emerald-800 text-white py-10 px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-3xl font-extrabold mb-2">Kalkulator Zakat Syariah</h1>
+      <p class="text-emerald-100 text-sm md:text-base">Hitung kewajiban zakat Anda secara akurat berdasarkan standar ketetapan nisab syariat Islam.</p>
+    </div>
+  </section>
+
+  <!-- Konten Utama -->
+  <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+
+    <!-- Acuan Harga Emas (Nisab) -->
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <i data-lucide="coins" class="w-8 h-8 text-amber-600 flex-shrink-0"></i>
+        <div>
+          <h2 class="font-bold text-amber-900 text-sm">Standar Nisab Zakat (85 Gram Emas)</h2>
+          <p class="text-xs text-amber-700">Masukan perkiraan harga emas murni per gram hari ini untuk perhitungan nisab presisi.</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 w-full md:w-auto">
+        <span class="text-xs font-semibold text-slate-600">Rp/Gram:</span>
+        <input type="number" id="goldPrice" value="1300000" oninput="calculateAllZakat()" class="w-36 p-2 text-sm border rounded-lg font-bold text-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+      </div>
+    </div>
+
+    <!-- Tab Pilihan Zakat -->
+    <div class="flex border-b border-slate-200 mb-6 overflow-x-auto text-sm font-semibold">
+      <button onclick="switchTab('profesi')" id="tab-profesi" class="px-5 py-3 border-b-2 border-emerald-600 text-emerald-600 flex items-center gap-2 whitespace-nowrap">
+        <i data-lucide="briefcase" class="w-4 h-4"></i> Zakat Profesi
+      </button>
+      <button onclick="switchTab('maal')" id="tab-maal" class="px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center gap-2 whitespace-nowrap">
+        <i data-lucide="wallet" class="w-4 h-4"></i> Zakat Maal
+      </button>
+      <button onclick="switchTab('emas')" id="tab-emas" class="px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center gap-2 whitespace-nowrap">
+        <i data-lucide="gem" class="w-4 h-4"></i> Zakat Emas
+      </button>
+      <button onclick="switchTab('fitrah')" id="tab-fitrah" class="px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center gap-2 whitespace-nowrap">
+        <i data-lucide="heart" class="w-4 h-4"></i> Zakat Fitrah
+      </button>
+    </div>
+
+    <!-- FORM 1: Zakat Profesi -->
+    <div id="form-profesi" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+      <h2 class="text-xl font-bold mb-4 text-slate-800">Kalkulator Zakat Profesi / Penghasilan</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Pendapatan Per Bulan (Rp)</label>
+          <input type="number" id="incomePerMonth" placeholder="0" oninput="calculateProfesi()" class="w-full p-3 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Bonus / Pendapatan Lainnya (Rp)</label>
+          <input type="number" id="otherIncome" placeholder="0" oninput="calculateProfesi()" class="w-full p-3 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+      </div>
+      <div id="result-profesi" class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+        <p class="text-xs text-slate-600">Total Zakat Profesi Wajib Dibayar (Per Bulan):</p>
+        <p class="text-2xl font-extrabold text-emerald-700 my-1" id="profesiTotal">Rp 0</p>
+        <p class="text-xs text-slate-500" id="profesiNote">Nisab bulanan: Rp 9.208.333</p>
+      </div>
+    </div>
+
+    <!-- FORM 2: Zakat Maal -->
+    <div id="form-maal" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 hidden">
+      <h2 class="text-xl font-bold mb-4 text-slate-800">Kalkulator Zakat Maal (Harta / Tabungan 1 Tahun)</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Uang Tunai & Tabungan (Rp)</label>
+          <input type="number" id="savings" placeholder="0" oninput="calculateMaal()" class="w-full p-3 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Investasi / Surat Berharga (Rp)</label>
+          <input type="number" id="investment" placeholder="0" oninput="calculateMaal()" class="w-full p-3 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Hutang Jatuh Tempo (Kurangi Total) (Rp)</label>
+          <input type="number" id="debt" placeholder="0" oninput="calculateMaal()" class="w-full p-3 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+      </div>
+      <div id="result-maal" class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+        <p class="text-xs text-slate-600">Total Zakat Maal Wajib Dibayar (2,5% Per Tahun):</p>
+        <p class="text-2xl font-extrabold text-emerald-700 my-1" id="maalTotal">Rp 0</p>
+        <p class="text-xs text-slate-500" id="maalNote">Nisab tahunan: Rp 110.500.000 (85 gram emas)</p>
+      </div>
+    </div>
+
+    <!-- FORM 3: Zakat Emas -->
+    <div id="form-emas" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 hidden">
+      <h2 class="text-xl font-bold mb-4 text-slate-800">Kalkulator Zakat Emas & Simpanan</h2>
+      <div class="mb-6">
+        <label class="block text-xs font-semibold text-slate-600 mb-1">Total Berat Emas Murni Simpanan (Gram)</label>
+        <input type="number" id="goldWeight" placeholder="Contoh: 90" oninput="calculateEmas()" class="w-full p-3 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+      </div>
+      <div id="result-emas" class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+        <p class="text-xs text-slate-600">Total Zakat Emas Wajib Dibayar (Setara Rupiah):</p>
+        <p class="text-2xl font-extrabold text-emerald-700 my-1" id="emasTotal">Rp 0</p>
+        <p class="text-xs text-slate-500" id="emasNote">Syarat wajib: Mencapai nisab 85 gram & tersimpan selama 1 tahun (haul).</p>
+      </div>
+    </div>
+
+    <!-- FORM 4: Zakat Fitrah -->
+    <div id="form-fitrah" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 hidden">
+      <h2 class="text-xl font-bold mb-4 text-slate-800">Kalkulator Zakat Fitrah</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Jumlah Jiwa / Tanggungan</label>
+          <input type="number" id="peopleCount" value="1" min="1" oninput="calculateFitrah()" class="w-full p-3 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Harga Beras per Kg (Rp)</label>
+          <input type="number" id="ricePrice" value="15000" oninput="calculateFitrah()" class="w-full p-3 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+      </div>
+      <div id="result-fitrah" class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+        <p class="text-xs text-slate-600">Total Zakat Fitrah yang Harus Dikeluarkan:</p>
+        <p class="text-2xl font-extrabold text-emerald-700 my-1" id="fitrahTotal">Rp 37.500</p>
+        <p class="text-xs text-slate-500" id="fitrahNote">Atau setara dengan 2.5 kg / 3.5 liter beras per jiwa.</p>
+      </div>
+    </div>
+
+    <!-- Edukasi Syariah & SEO Content -->
+    <article class="mt-12 bg-white p-6 rounded-2xl border border-slate-200 text-sm leading-relaxed text-slate-700 space-y-4">
+      <h3 class="text-lg font-bold text-slate-900">Dasar Hukum & Ketentuan Zakat</h3>
+      <p>Zakat merupakan rukun Islam ketiga yang hukumnya wajib bagi setiap Muslim yang telah memenuhi syarat nisab dan haul. Sebagaimana firman Allah SWT dalam Surah Al-Baqarah ayat 43:</p>
+      <blockquote class="border-l-4 border-emerald-600 pl-4 italic text-emerald-900 bg-emerald-50/50 py-2 rounded-r-lg">
+        "Dan laksanakanlah salat, tunaikanlah zakat, dan rukuklah bersama orang-orang yang rukuk."
+      </blockquote>
+      <p>Nisab zakat harta (maal) dihitung setara dengan harga <strong>85 gram emas murni</strong> dengan masa kepemilikan selama satu tahun penuh (haul).</p>
+    </article>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 py-6 px-4 text-center text-sm border-t border-slate-800 mt-auto">
+    <p>&copy; 2026 Portal Islami Terpadu. Seluruh hak cipta dilindungi.</p>
+  </footer>
+
+  <!-- Logic JavaScript -->
+  <script>
+    lucide.createIcons();
+
+    function formatRupiah(number) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
+    }
+
+    function switchTab(type) {
+      ['profesi', 'maal', 'emas', 'fitrah'].forEach(t => {
+        document.getElementById(`form-${t}`).classList.add('hidden');
+        document.getElementById(`tab-${t}`).className = 'px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-emerald-600 flex items-center gap-2 whitespace-nowrap';
+      });
+
+      document.getElementById(`form-${type}`).classList.remove('hidden');
+      document.getElementById(`tab-${type}`).className = 'px-5 py-3 border-b-2 border-emerald-600 text-emerald-600 flex items-center gap-2 whitespace-nowrap font-bold';
+    }
+
+    function calculateProfesi() {
+      const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 0;
+      const income = parseFloat(document.getElementById('incomePerMonth').value) || 0;
+      const other = parseFloat(document.getElementById('otherIncome').value) || 0;
+      const totalIncome = income + other;
+
+      const monthlyNisab = (85 * goldPrice) / 12;
+      document.getElementById('profesiNote').innerText = `Nisab bulanan: ${formatRupiah(monthlyNisab)}`;
+
+      if (totalIncome >= monthlyNisab) {
+        const zakat = totalIncome * 0.025;
+        document.getElementById('profesiTotal').innerText = formatRupiah(zakat);
+      } else {
+        document.getElementById('profesiTotal').innerText = 'Belum Wajib Zakat';
+      }
+    }
+
+    function calculateMaal() {
+      const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 0;
+      const savings = parseFloat(document.getElementById('savings').value) || 0;
+      const investment = parseFloat(document.getElementById('investment').value) || 0;
+      const debt = parseFloat(document.getElementById('debt').value) || 0;
+
+      const totalWealth = (savings + investment) - debt;
+      const yearlyNisab = 85 * goldPrice;
+
+      document.getElementById('maalNote').innerText = `Nisab tahunan: ${formatRupiah(yearlyNisab)} (85 gram emas)`;
+
+      if (totalWealth >= yearlyNisab) {
+        const zakat = totalWealth * 0.025;
+        document.getElementById('maalTotal').innerText = formatRupiah(zakat);
+      } else {
+        document.getElementById('maalTotal').innerText = 'Belum Wajib Zakat';
+      }
+    }
+
+    function calculateEmas() {
+      const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 0;
+      const weight = parseFloat(document.getElementById('goldWeight').value) || 0;
+
+      if (weight >= 85) {
+        const zakatRupiah = (weight * goldPrice) * 0.025;
+        document.getElementById('emasTotal').innerText = `${formatRupiah(zakatRupiah)} (${(weight * 0.025).toFixed(2)} gram)`;
+      } else {
+        document.getElementById('emasTotal').innerText = 'Belum Wajib Zakat';
+      }
+    }
+
+    function calculateFitrah() {
+      const count = parseFloat(document.getElementById('peopleCount').value) || 0;
+      const price = parseFloat(document.getElementById('ricePrice').value) || 0;
+      const totalKg = count * 2.5;
+      const totalRupiah = totalKg * price;
+
+      document.getElementById('fitrahTotal').innerText = formatRupiah(totalRupiah);
+      document.getElementById('fitrahNote').innerText = `Setara dengan ${totalKg} kg beras untuk ${count} jiwa.`;
+    }
+
+    function calculateAllZakat() {
+      calculateProfesi();
+      calculateMaal();
+      calculateEmas();
+      calculateFitrah();
+    }
+
+    // Initial run
+    calculateAllZakat();
+  </script>
+</body>
+</html>
